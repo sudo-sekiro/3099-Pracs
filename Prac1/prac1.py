@@ -1,12 +1,9 @@
 #!/usr/bin/python3
 """
-Python Practical Template
-Keegan Crankshaw
-Readjust this Docstring as follows:
-Names: <names>
-Student Number: <studnum>
-Prac: <Prac Num>
-Date: <dd/mm/yyyy>
+Jon Friedman
+FRDJON009
+Prac1
+29/07/2019
 """
 
 # import Relevant Librares
@@ -14,8 +11,26 @@ import RPi.GPIO as GPIO
 
 # Logic that you write
 def main():
-    print("write your logic here")
+    init_GPIO()
 
+
+
+def init_GPIO():
+	GPIO.setmode(GPIO.BCM)
+	GPIO.setup(26, GPIO.OUT)
+	GPIO.setup(17, GPIO.OUT)
+	GPIO.setup(27, GPIO.OUT)
+	GPIO.add_event_detect(6, GPIO.RISING, bouncetime = 300)
+	GPIO.add_event_callback(6, callback=callback1())
+	GPIO.add_event_detect(16, GPIO.RISING, bouncetime = 300)
+	GPIO.add_event_callback(16, callback=callback2())
+
+
+def callback1(channel):
+	GPIO.output(18,GPIO.HIGH)
+
+def callback2():
+	GPIO.output(17, GPIO.HIGH)
 
 # Only run the functions if 
 if __name__ == "__main__":
