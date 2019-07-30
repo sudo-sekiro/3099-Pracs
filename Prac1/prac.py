@@ -28,14 +28,24 @@ def init_GPIO():
 	GPIO.add_event_callback(6, callback=callback1)
 	GPIO.add_event_detect(16, GPIO.FALLING, bouncetime = 300)
 	GPIO.add_event_callback(16, callback=callback2)
+
 def LED():
-
-
+	global c
+	if(c & 1):
+		GPIO.output(26, GPIO.HIGH)
+	else:
+		GPIO.output(26, GPIO.LOW)
+	if(c & 2):
+		GPIO.output(17, GPIO.HIGH)
+	else:
+		GPIO.output(17, GPIO.LOW)
+	if(c & 4):
+		GPIO.output(27, GPIO.HIGH)
+	else:
+		GPIO.output(27, GPIO.LOW)
 def callback1(channel):
-	GPIO.output(26,GPIO.HIGH)
 	global c
 	c = c+1
-	print c
 	LED()
 def callback2(channel):
 	GPIO.output(27, GPIO.HIGH)
