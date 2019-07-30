@@ -8,7 +8,7 @@ Prac1
 
 # import Relevant Librares
 import RPi.GPIO as GPIO
-c = 0
+c = 16
 # Logic that you write
 def main():
 	init_GPIO()
@@ -31,6 +31,8 @@ def init_GPIO():
 
 def LED():
 	global c
+	if (c==0):
+		c = 8
 	if(c & 1):
 		GPIO.output(26, GPIO.HIGH)
 	else:
