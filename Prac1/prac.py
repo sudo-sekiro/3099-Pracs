@@ -15,7 +15,7 @@ def main():
 	while(True):
 		pass
 
-
+#initiate GPIO pins as inputs and outputs
 def init_GPIO():
 	GPIO.setwarnings(False)
 	GPIO.setmode(GPIO.BCM)
@@ -28,11 +28,11 @@ def init_GPIO():
 	GPIO.add_event_callback(6, callback=callback1)
 	GPIO.add_event_detect(16, GPIO.FALLING, bouncetime = 300)
 	GPIO.add_event_callback(16, callback=callback2)
-
+#check the bits of the counter and update led display
 def LED():
 	global c
 	if (c==0):
-		c = 8
+		c = 8 
 	if(c & 1):
 		GPIO.output(26, GPIO.HIGH)
 	else:
@@ -45,15 +45,17 @@ def LED():
 		GPIO.output(27, GPIO.HIGH)
 	else:
 		GPIO.output(27, GPIO.LOW)
+#interupt used to inrement counter
 def callback1(channel):
 	global c
 	c = c+1
 	LED()
+#interupt used to decrease counter
 def callback2(channel):
 	GPIO.output(27, GPIO.HIGH)
 	global c
 	if(c>0):
-		c = c - 1
+		c = c - 1  
 	LED()
 # Only run the functions if 
 if __name__ == "__main__":
