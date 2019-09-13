@@ -30,8 +30,6 @@ bool threadReady = false; //using this to finish writing the first column at the
 
 // Configure your interrupts here.
 // Don't forget to use debouncing.
-wiringPiISR(PLAY_BUTTON, INT_EDGE_FALLING, &play_pause_isr);
-wiringPiISR(STOP_BUTTON, INT_EDGE_FALLING, &stop_isr);
 
 
 
@@ -120,6 +118,9 @@ int main(){
 	if(setup_gpio()==-1){
         return 0;
     }
+    wiringPiISR(PLAY_BUTTON, INT_EDGE_FALLING, &play_pause_isr);
+wiringPiISR(STOP_BUTTON, INT_EDGE_FALLING, &stop_isr);
+
     
     /* Initialize thread with parameters
      * Set the play thread to have a 99 priority
