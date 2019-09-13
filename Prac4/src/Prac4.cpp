@@ -27,6 +27,8 @@ int buffer_location = 0;
 bool bufferReading = 0; //using this to switch between column 0 and 1 - the first column
 bool threadReady = false; //using this to finish writing the first column at the start of the song, before the column is played
 
+long lastInterruptTime = 0; //used for button debouncing
+
 
 // Configure your interrupts here.
 // Don't forget to use debouncing.
@@ -35,23 +37,30 @@ bool threadReady = false; //using this to finish writing the first column at the
 
 void play_pause_isr(void){
     //Write your logis here
-    if(playing==true){
+    long interruptTime = millis();
+    if (interruptTime - lastInterruptTime>1000){
+    if(playing){
       playing = false;
     }
-    else if(playing==false){
+    if(!playing){
       playing = true;
     }
-    else{
-      playing = true;
-    }
+    
     printf("Play/Pause button pressed\n");
+    }
+    lastInterruptTime = interruptTime;
 
 }
 
 void stop_isr(void){
     // Write your logic here
+    
+    long interruptTime = millis();
+    if (interruptTime - lastInterruptTime>1000){
     stopped = true;
     printf("Stop button pressed\n");
+    }
+    lastInterruptTime = interruptTime;
 }
 
 /*
@@ -63,15 +72,15 @@ int setup_gpio(void){
     //setting up the buttons
 	//TODO
    pinMode(STOP_BUTTON, INPUT);
-   pullUpDnControl(STOP_BUTTON, PUD_UP);
+   pullUpDnControl(STOP_BUTTON, PUD_DOWN);
 
    pinMode(PLAY_BUTTON, INPUT);
-   pullUpDnControl(PLAY_BUTTON, PUD_UP);
+   pullUpDnControl(PLAY_BUTTON, PUD_DOWN);
    
    // Configure your interrupts here.
    // Don't forget to use debouncing.
-   wiringPiISR(PLAY_BUTTON, INT_EDGE_FALLING, play_pause_isr);
-wiringPiISR(STOP_BUTTON, INT_EDGE_FALLING, stop_isr);
+   wiringPiISR(PLAY_BUTTON, INT_EDGE_RISING, &play_pause_isr);
+   wiringPiISR(STOP_BUTTON, INT_EDGE_RISING, &stop_isr);
 
    
     //setting up the SPI interface
@@ -99,6 +108,7 @@ void *playThread(void *threadargs){
 		//TODO
         while(!playing)
           {
+              printf("Audio is paused\n");
 	//continue looping through and not  playing
           }
         //Write the buffer out to SPI
