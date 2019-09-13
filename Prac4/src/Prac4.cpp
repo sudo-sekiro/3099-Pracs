@@ -173,9 +173,9 @@ int main(){
             continue;
         }
         //Set config bits for first 8 bit packet and OR with upper bits
-        buffer[bufferWriting][counter][0] = 0b01110000 | ch>>6;; //TODO
+        buffer[bufferWriting][counter][0] = 0b01110000 | ch>>6; //TODO
         //Set next 8 bit packet
-        buffer[bufferWriting][counter][1] =  ch<<2;; //TODO
+        buffer[bufferWriting][counter][1] =  ch<<2; //TODO
 
         counter++;
         if(counter >= BUFFER_SIZE+1){
