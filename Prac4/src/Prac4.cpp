@@ -44,11 +44,14 @@ void play_pause_isr(void){
     else{
       playing = true;
     }
+    printf("Play/Pause button pressed\n");
+
 }
 
 void stop_isr(void){
     // Write your logic here
     stopped = true;
+    printf("Stop button pressed\n");
 }
 
 /*
