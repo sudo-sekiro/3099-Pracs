@@ -30,7 +30,7 @@ bool threadReady = false; //using this to finish writing the first column at the
 
 // Configure your interrupts here.
 // Don't forget to use debouncing.
-
+wiringPiSetup();
 wiringPiISR(PLAY_BUTTON, INT_EDGE_FALLING, &play_pause_isr);
 wiringPiISR(STOP_BUTTON, INT_EDGE_FALLING, &stop_isr);
 
