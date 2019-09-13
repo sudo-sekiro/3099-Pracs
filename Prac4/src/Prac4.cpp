@@ -28,11 +28,7 @@ bool bufferReading = 0; //using this to switch between column 0 and 1 - the firs
 bool threadReady = false; //using this to finish writing the first column at the start of the song, before the column is played
 
 
-// Configure your interrupts here.
-// Don't forget to use debouncing.
 
-wiringPiISR(28, INT_EDGE_FALLING, &play_pause_isr);
-wiringPiISR(29, INT_EDGE_FALLING, &stop_isr);
 
 void play_pause_isr(void){
     //Write your logis here
@@ -60,11 +56,11 @@ int setup_gpio(void){
     wiringPiSetup();
     //setting up the buttons
 	//TODO
-   pinMode(28, INPUT);
-   pullUpDnControl(28, PUD_UP);
+   pinMode(STOP_BUTTON, INPUT);
+   pullUpDnControl(STOP_BUTTON, PUD_UP);
 
-   pinMode(29, INPUT);
-   pullUpDnControl(29, PUD_UP);
+   pinMode(PLAY_BUTTON, INPUT);
+   pullUpDnControl(PLAY_BUTTON, PUD_UP);
     //setting up the SPI interface
     //TODO
 	wiringPiSPISetup(SPI_CHAN,SPI_SPEED);
@@ -190,4 +186,9 @@ int main(){
 	
     return 0;
 }
+// Configure your interrupts here.
+// Don't forget to use debouncing.
+
+wiringPiISR(PLAY_BUTTON, INT_EDGE_FALLING, &play_pause_isr);
+wiringPiISR(STOP_BUTTON, INT_EDGE_FALLING, &stop_isr);
 
