@@ -30,12 +30,26 @@ bool threadReady = false; //using this to finish writing the first column at the
 
 // Configure your interrupts here.
 // Don't forget to use debouncing.
+
+wiringPiISR(PLAY_BUTTON, INT_EDGE_FALLING, &play_pause_isr);
+wiringPiISR(STOP_BUTTON, INT_EDGE_FALLING, &stop_isr);
+
 void play_pause_isr(void){
     //Write your logis here
+    if(playing==true){
+      playing = false;
+    }
+    else if(playing==false){
+      playing = true;
+    }
+    else{
+      playing = true;
+    }
 }
 
 void stop_isr(void){
     // Write your logic here
+    stopped = true;
 }
 
 /*
@@ -46,6 +60,11 @@ int setup_gpio(void){
     wiringPiSetup();
     //setting up the buttons
 	//TODO
+   pinMode(PLAY_BUTTON, INPUT);
+   pullUpDnControl(PLAY_BUTTON, PUD_UP);
+
+   pinMode(STOP_BUTTON, INPUT);
+   pullUpDnControl(STOP_BUTTON, PUD_UP);
     //setting up the SPI interface
     //TODO
 	wiringPiSPISetup(SPI_CHAN,SPI_SPEED);
