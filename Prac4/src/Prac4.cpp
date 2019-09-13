@@ -28,6 +28,11 @@ bool bufferReading = 0; //using this to switch between column 0 and 1 - the firs
 bool threadReady = false; //using this to finish writing the first column at the start of the song, before the column is played
 
 
+// Configure your interrupts here.
+// Don't forget to use debouncing.
+
+wiringPiISR(PLAY_BUTTON, INT_EDGE_FALLING, &play_pause_isr);
+wiringPiISR(STOP_BUTTON, INT_EDGE_FALLING, &stop_isr);
 
 
 void play_pause_isr(void){
@@ -123,7 +128,7 @@ int main(){
     pthread_attr_getschedparam (&tattr, &param); /* safe to get existing scheduling param */
     param.sched_priority = newprio; /* set the priority; others are unchanged */
     pthread_attr_setschedparam (&tattr, &param); /* setting the new scheduling param */
-    pthread_create(&thread_id, &tattr, playThread, (void *)1); /* with new priority specified *
+    pthread_create(&thread_id, &tattr, playThread, (void *)1); /* with new priority specified */
     
     /*
      * Read from the file, character by character
@@ -186,9 +191,4 @@ int main(){
 	
     return 0;
 }
-// Configure your interrupts here.
-// Don't forget to use debouncing.
-
-wiringPiISR(PLAY_BUTTON, INT_EDGE_FALLING, &play_pause_isr);
-wiringPiISR(STOP_BUTTON, INT_EDGE_FALLING, &stop_isr);
 
