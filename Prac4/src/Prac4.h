@@ -29,8 +29,8 @@
 #include <iostream>
 
 //Define buttons
-const int PLAY_BUTTON = 29// Write your value here
-const int STOP_BUTTON = 28// Write your value here
+const int PLAY_BUTTON = 29;// Write your value here
+const int STOP_BUTTON = 28;// Write your value here
 #define BUFFER_SIZE 1000
 
 //SPI Settings
