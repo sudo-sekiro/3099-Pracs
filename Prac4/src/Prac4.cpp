@@ -19,7 +19,7 @@
 #include "Prac4.h"
 
 using namespace std;
-
+unsigned long last_interrupt_time = 0;
 bool playing = true; // should be set false when paused
 bool stopped = false; // If set to true, program should close
 unsigned char buffer[2][BUFFER_SIZE][2];
@@ -35,6 +35,11 @@ bool threadReady = false; //using this to finish writing the first column at the
 
 void play_pause_isr(void){
     //Write your logis here
+unsigned long interrupt_time = millis();
+  // If interrupts come faster than 200ms, assume it's a bounce and ignore
+  if (interrupt_time - last_interrupt_time > 500) 
+  {
+    last_interrupt_time = interrupt_time;
     if(playing==true){
       playing = false;
     }
@@ -45,7 +50,7 @@ void play_pause_isr(void){
       playing = true;
     }
     printf("Play/Pause button pressed\n");
-
+  }
 }
 
 void stop_isr(void){
