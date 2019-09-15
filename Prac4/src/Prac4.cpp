@@ -34,13 +34,7 @@ bool threadReady = false; //using this to finish writing the first column at the
 
 
 void play_pause_isr(void){
-unsigned long last_interrupt_time = 0;
-  unsigned long interrupt_time = millis();
-  // If interrupts come faster than 200ms, assume it's a bounce and ignore
-  if (interrupt_time - last_interrupt_time > 200) 
-  {
-    //Write your logic here
-	printf("play/pause");
+    //Write your logis here
     if(playing==true){
       playing = false;
     }
@@ -50,13 +44,14 @@ unsigned long last_interrupt_time = 0;
     else{
       playing = true;
     }
-}
-    last_interrupt_time = interrupt_time;
+    printf("Play/Pause button pressed\n");
+
 }
 
 void stop_isr(void){
     // Write your logic here
     stopped = true;
+    printf("Stop button pressed\n");
 }
 
 /*
@@ -75,8 +70,8 @@ int setup_gpio(void){
    
    // Configure your interrupts here.
    // Don't forget to use debouncing.
-   wiringPiISR(PLAY_BUTTON, INT_EDGE_FALLING, play_pause_isr);
-   wiringPiISR(STOP_BUTTON, INT_EDGE_FALLING, stop_isr);
+   wiringPiISR(PLAY_BUTTON, INT_EDGE_FALLING, &play_pause_isr);
+   wiringPiISR(STOP_BUTTON, INT_EDGE_FALLING, &stop_isr);
 
     //setting up the SPI interface
     //TODO
@@ -204,4 +199,3 @@ int main(){
 	
     return 0;
 }
-
